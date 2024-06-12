@@ -12,10 +12,10 @@ import java.util.List;
 @Table(name = "lesson")
 public class Lesson extends AbstractEntity {
   @OneToMany(mappedBy = "lesson")
-  private List<Theory> theories;
-  @OneToMany(mappedBy = "lesson")
   private List<Test> tests;
   @ManyToOne
   private User author;
   private String title;
+  @Lob
+  private String theory;
 }

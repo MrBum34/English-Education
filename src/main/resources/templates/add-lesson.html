@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Добавить урок</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <h2>Добавить новый урок</h2>
+    <form th:action="@{/add-lesson}" method="post" th:object="${lesson}">
+        <div class="form-group">
+            <label for="title">Название</label>
+            <input type="text" id="title" class="form-control" th:field="*{title}" placeholder="Введите название урока" required/>
+        </div>
+        <div class="form-group">
+            <label for="theoryContent">Теория</label>
+            <textarea id="theoryContent" class="form-control" th:field="*{theory}" placeholder="Введите содержание теории" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить урок</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление тестов к уроку</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <h2>Добавление тестов к уроку</h2>
+
+    <form th:action="@{/add-tests}" method="post" th:object="${testWrapper}">
+        <input type="hidden" name="lessonId" th:value="${lessonId}" />
+
+        <div class="form-group">
+            <label for="testType">Выберите тип теста</label>
+            <select id="testType" class="form-control">
+                <option value="">Выберите...</option>
+                <option value="check">Check</option>
+                <option value="construct">Construct</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-primary mb-3" onclick="addTest()">Добавить тест</button>
+
+        <div id="testsContainer"></div> <!-- Здесь будут добавляться тесты -->
+
+        <button type="submit" class="btn btn-success">Сохранить тесты</button>
+    </form>
+
+    <a href="/lessons" class="btn btn-secondary">Вернуться к урокам</a>
+</div>
+
+<script th:inline="javascript">
+    var testCount = 0;
+
+    function addTest() {
+        var testType = document.getElementById("testType").value;
+        if (!testType) {
+            alert("Пожалуйста, выберите тип теста.");
+            return;
+        }
+
+        testCount++;
+        var testContainer = document.createElement("div");
+        testContainer.classList.add("test-container");
+        testContainer.dataset.type = testType;
+        testContainer.dataset.index = testCount;
+
+        var testHtml = `
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4>Тест ${testCount} (${testType === 'check' ? 'Check' : 'Construct'})</h4>
+                    <div class="form-group">
+                        <label for="task${testCount}">Задание</label>
+                        <input type="text" id="task${testCount}" name="tests[${testCount - 1}].task" class="form-control" required>
+                        <input type="hidden" name="tests[${testCount - 1}].type" value="${testType}"> <!-- Скрытое поле для типа теста -->
+                    </div>
+                    <div class="answers-container" id="answersContainer${testCount}">
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="addAnswerField(${testCount}, '${testType}')">Добавить ${testType === 'check' ? 'ответ' : 'слово'}</button>
+                </div>
+            </div>
+        `;
+        testContainer.innerHTML = testHtml;
+        document.getElementById("testsContainer").appendChild(testContainer);
+    }
+
+    function addAnswerField(testIndex, testType) {
+        var answersContainer = document.getElementById(`answersContainer${testIndex}`);
+        var answerCount = answersContainer.children.length + 1;
+
+        if (testType === 'check') {
+            var answerHtml = `
+                <div class="form-group">
+                    <label for="answer${testIndex}-${answerCount}">Вариант ответа ${answerCount}</label>
+                    <input type="text" id="answer${testIndex}-${answerCount}" name="tests[${testIndex - 1}].answers[${answerCount - 1}].answer" class="form-control" required>
+                    <div class="form-check">
+                        <input type="checkbox" id="correct${testIndex}-${answerCount}" name="tests[${testIndex - 1}].answers[${answerCount - 1}].correct" class="form-check-input">
+                        <label for="correct${testIndex}-${answerCount}" class="form-check-label">Правильный</label>
+                    </div>
+                </div>
+            `;
+        } else if (testType === 'construct') {
+            var answerHtml = `
+                <div class="form-group">
+                    <label for="word${testIndex}-${answerCount}">Слово ${answerCount}</label>
+                    <input type="text" id="word${testIndex}-${answerCount}" name="tests[${testIndex - 1}].answers[${answerCount - 1}].answer" class="form-control" required>
+                    <input type="hidden" name="tests[${testIndex - 1}].answers[${answerCount - 1}].number" value="${answerCount}">
+                    <div class="form-check">
+                        <input type="checkbox" id="wordCorrect${testIndex}-${answerCount}" name="tests[${testIndex - 1}].answers[${answerCount - 1}].correct" class="form-check-input">
+                        <label for="wordCorrect${testIndex}-${answerCount}" class="form-check-label">Правильный</label>
+                    </div>
+                </div>
+            `;
+        }
+
+        answersContainer.insertAdjacentHTML('beforeend', answerHtml);
+    }
+</script>
+
+</body>
+</html>

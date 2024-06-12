@@ -14,7 +14,7 @@ public class User extends AbstractEntity {
     @Column(unique = true)
     private String username;
     private String password;
-    private String role="ROLE_STUDENT";
+    private String role;
 
     private String firstname;
     private String lastname;

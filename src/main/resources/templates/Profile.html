@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Профиль</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <h2>Редактировать профиль</h2>
+    <form th:action="@{/profile}" th:object="${userProfile}" method="post">
+
+        <div class="form-group">
+            <label for="firstname">Имя</label>
+            <input type="text" id="firstname" class="form-control" th:field="*{firstname}"/>
+        </div>
+        <div class="form-group">
+            <label for="lastname">Фамилия</label>
+            <input type="text" id="lastname" class="form-control" th:field="*{lastname}"/>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Отчество</label>
+            <input type="text" id="patronymic" class="form-control" th:field="*{patronymic}"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+    <div style="margin-top: 20px;">
+        <h2>Изменить пароль</h2>
+        <form th:action="@{/change-password}" method="post">
+            <div class="form-group">
+                <label for="newPassword">Новый пароль</label>
+                <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="Новый пароль"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Изменить пароль</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

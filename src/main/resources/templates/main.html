@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>VSTU ENGLISH</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <div class="jumbotron mt-4">
+        <h1 class="display-4">Добро пожаловать в VSTU English!</h1>
+        <p class="lead">Ваш надёжный партнёр в изучении английского языка.</p>
+        <hr class="my-4">
+        <p>Наш онлайн-тренажёр разработан специально для студентов и преподавателей
+            Витебского государственного технологического университета.
+            Мы предлагаем интерактивные упражнения, адаптивные тесты и богатый выбор
+            учебных материалов, которые помогут вам эффективно и увлекательно
+            улучшить свои языковые навыки.</p>
+
+        <div class="text-right">
+            <a sec:authorize="isAuthenticated()" class="btn btn-primary btn-lg" href="/lessons" role="button">Начать обучение</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

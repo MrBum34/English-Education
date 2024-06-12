@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты тестов</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <h2>Ваш результат</h2>
+    <p th:text="'Ваша оценка: ' + ${score} + '%'">Ваша оценка: </p>
+    <a href="/lessons" class="btn btn-secondary">Вернуться к урокам</a>
+</div>
+</body>
+</html>

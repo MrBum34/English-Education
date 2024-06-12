@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Мои уроки</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container">
+    <h2>Мои материалы</h2>
+    <a href="/add-lesson" class="btn btn-primary mb-3">Добавить урок</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lesson : ${lessons}">
+            <td th:text="${lesson.title}">Название урока</td>
+            <td>
+                <a th:href="@{'/lessons/' + ${lesson.id}}" class="btn btn-info">Открыть</a>
+             </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

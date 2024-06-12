@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing Page</title>
+</head>
+<body>
+<h1>Testing Page</h1>
+<form th:action="@{/submitTest}" method="post" th:object="${testWrapper}">
+    <input type="hidden" name="lessonId" th:value="${lessonId}">
+    <ul>
+        <li th:each="test, testIndex : *{tests}">
+            <h2 th:text="${test.task}"></h2>
+            <input type="hidden" th:field="*{tests[__${testIndex.index}__].id}" /> <!-- Hidden input for test id -->
+            <input type="text" th:field="*{tests[__${testIndex.index}__].task}" /> <!-- Text input for test task -->
+            <div th:if="${test.type == 'check'}">
+                <div th:each="answer, answerIndex : ${test.answers}">
+                    <label>
+                        <input type="checkbox" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].correct}" />
+                        <span th:text="${answer.answer}"></span>
+                    </label>
+                </div>
+            </div>
+            <div th:if="${test.type == 'construct'}">
+                <ul>
+                    <li th:each="answer, answerIndex : ${test.answers}">
+                        <label>
+                            <span th:text="${answer.answer}"></span>
+                            <input type="text" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].number}" />
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
