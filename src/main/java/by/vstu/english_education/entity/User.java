@@ -19,8 +19,11 @@ public class User extends AbstractEntity {
     private String firstname;
     private String lastname;
     private String patronymic;
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestResults> testResults;
+    public String getFullName(){
+        return lastname+" "+firstname+" "+patronymic;
+    }
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Entity
 @Table(name = "lesson")
 public class Lesson extends AbstractEntity {
-  @OneToMany(mappedBy = "lesson")
+  @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL,orphanRemoval = true)
   private List<Test> tests;
-  @ManyToOne
+  @ManyToOne()
   private User author;
   private String title;
   @Lob

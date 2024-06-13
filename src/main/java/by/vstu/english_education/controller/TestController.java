@@ -1,5 +1,6 @@
 package by.vstu.english_education.controller;
 
+import by.vstu.english_education.entity.Answer;
 import by.vstu.english_education.entity.Dto.TestWrapper;
 import by.vstu.english_education.entity.Lesson;
 import by.vstu.english_education.entity.Test;
@@ -8,12 +9,11 @@ import by.vstu.english_education.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import by.vstu.english_education.entity.Answer;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TestController {
@@ -24,7 +24,7 @@ public class TestController {
     @Autowired
     private LessonService lessonService;
 
-    @GetMapping("lessons/{lessonId}/add-tests")
+    @GetMapping("/lessons/{lessonId}/add-tests")
     public String showAddTestsForm(@PathVariable Long lessonId, Model model) {
         model.addAttribute("lessonId", lessonId);
         model.addAttribute("testWrapper", new TestWrapper());
@@ -42,41 +42,29 @@ public class TestController {
         }
         return "redirect:/lessons";
     }
-    @GetMapping("/lessons/{lessonId}/edit-tests")
-    public String showEditTestsForm(@PathVariable Long lessonId, Model model) {
-        List<Test> tests = testService.findByLessonId(lessonId);
-        TestWrapper testWrapper = new TestWrapper();
-        testWrapper.setTests(tests);
-        model.addAttribute("lessonId", lessonId);
-        model.addAttribute("testWrapper", testWrapper);
-        return "edit-tests";
-    }
 
-    @PostMapping("/edit-tests")
-    public String editTests(@ModelAttribute("testWrapper") TestWrapper testWrapper) {
-        for (Test test : testWrapper.getTests()) {
-            // Здесь можно выполнить необходимые операции редактирования или обновления тестов в базе данных
-            testService.updateTest(test);
-        }
-        return "redirect:/lessons";
-    }
     @GetMapping("/lessons/{lessonId}/test")
     public String showTestPage(@PathVariable Long lessonId, Model model) {
         List<Test> tests = testService.findByLessonId(lessonId);
+        for (Test test : tests) {
+            for (Answer answer : test.getAnswers()) {
+                answer.setCorrect(false);
+                answer.setNumber((byte) 0);
+            }
+        }
+            TestWrapper testWrapper = new TestWrapper();
+            testWrapper.setTests(tests);
+            model.addAttribute("lessonId", lessonId);
+            model.addAttribute("testWrapper", testWrapper);
+            return "testing";
 
-        TestWrapper testWrapper = new TestWrapper();
-        testWrapper.setTests(tests);
-        model.addAttribute("lessonId", lessonId);
-        model.addAttribute("testWrapper", testWrapper);
-        return "testing";
     }
 
     @PostMapping("/submitTest")
-    public String submitTest(@RequestParam Long lessonId, @ModelAttribute("testWrapper") TestWrapper testWrapper) {
-        for (Test test : testWrapper.getTests()) {
-            System.out.println(test.getType());
-        }
-        // Redirect to the results page or another appropriate page
-        return "redirect:/results";
+    public String submitTest(@RequestParam Long lessonId, @ModelAttribute("testWrapper") TestWrapper testWrapper, Authentication authentication, Model model) {
+        Date date = new Date();
+        double score = testService.checkTestResults(testWrapper, authentication.getName(), lessonId, date);
+        model.addAttribute("score", score);
+        return "result";
     }
 }

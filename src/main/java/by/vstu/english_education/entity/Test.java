@@ -14,10 +14,10 @@ import java.util.List;
 public class Test extends AbstractEntity {
     private String task;
     private String type;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers;
-    @ManyToOne
+    @ManyToOne()
     private Lesson lesson;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestResults> testResults;
 }

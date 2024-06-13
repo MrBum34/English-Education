@@ -4,11 +4,12 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Мои уроки</title>
     <meta charset="UTF-8">
+    <link rel="icon" href="https://vstu.by/templates/protostar/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <div th:insert="header/header :: header"></div>
 <div class="container">
-    <h2>Мои материалы</h2>
+    <h2>Мои уроки</h2>
     <a href="/add-lesson" class="btn btn-primary mb-3">Добавить урок</a>
 
     <table class="table">
@@ -22,7 +23,9 @@
         <tr th:each="lesson : ${lessons}">
             <td th:text="${lesson.title}">Название урока</td>
             <td>
-                <a th:href="@{'/lessons/' + ${lesson.id}}" class="btn btn-info">Просмотр</a>
+                <a th:href="@{'/lessons/' + ${lesson.id}}" class="btn btn-info">Просмотр урока</a>
+                <a th:if="${lesson.getTests()}!=null" th:href="@{'/lesson-results/' + ${lesson.id}}" class="btn btn-secondary">Просмотр результатов тестов</a>
+                <a th:href="@{'/lessons/'+${lesson.id}+'/add-tests'}" class="btn btn-warning">Добавить тесты</a>
                 <a th:href="@{'/edit-lesson/' + ${lesson.id}}" class="btn btn-warning">Изменить</a>
                 <a th:href="@{'/delete-lesson/' + ${lesson.id}}" class="btn btn-danger">Удалить</a>
             </td>

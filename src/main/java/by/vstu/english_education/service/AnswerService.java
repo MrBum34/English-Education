@@ -10,7 +10,10 @@ public class AnswerService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    public void save(Answer answer) {
+    public Answer findById(Long id) {
+        return answerRepository.findById(id).orElse(null);
+    }
+    public void save(Answer answer){
         answerRepository.save(answer);
     }
 }

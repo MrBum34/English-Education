@@ -4,21 +4,31 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Изменение урока</title>
     <meta charset="UTF-8">
+    <link rel="icon" href="https://vstu.by/templates/protostar/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <div th:insert="header/header :: header"></div>
-<div class="container">
+<div class="container mt-4">
     <h2>Изменение урока</h2>
-    <form th:action="@{/edit-lesson}" method="post" th:object="${lesson}">
+    <form th:action="@{/edit-lesson}" method="post" th:object="${lesson}" class="needs-validation" novalidate>
         <input type="hidden" th:field="*{id}" />
+
         <div class="form-group">
             <label for="title">Название урока</label>
             <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Введите название урока" required>
-        </div>>
+            <div class="invalid-feedback">
+                Необходимо ввести название урока.
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="theory">Теория урока</label>
-            <textarea id="theory" th:field="*{theory}" class="form-control" placeholder="Введите теорию урока" required></textarea>
+            <textarea id="theory" th:field="*{theory}" class="form-control" rows="8" placeholder="Введите теорию урока" required></textarea>
+            <div class="invalid-feedback">
+                Необходимо ввести теорию урока.
+            </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
     </form>
 </div>

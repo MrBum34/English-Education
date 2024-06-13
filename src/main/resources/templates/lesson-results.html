@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Результаты тестов</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://vstu.by/templates/protostar/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Результаты тестов по уроку</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ФИО</th>
+            <th>Балл</th>
+            <th>Дата прохождения</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result : ${testResults}">
+            <td th:text="${result.user.fullName}"></td>
+            <td th:text="${result.score}"></td>
+            <td th:text="${#dates.format(result.date, 'dd.MM.yyyy HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты тестов</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://vstu.by/templates/protostar/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+<div th:insert="header/header :: header"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Результаты тестов</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Название урока</th>
+            <th>Балл</th>
+            <th>Дата и время</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Thymeleaf шаблон для вставки данных -->
+        <tr th:each="result : ${testResults}">
+            <td th:text="${result.lesson.title}"></td>
+            <td th:text="${result.score}"></td>
+            <td th:text="${#dates.format(result.date, 'dd.MM.yyyy HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,39 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Testing Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://vstu.by/templates/protostar/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<h1>Testing Page</h1>
-<form th:action="@{/submitTest}" method="post" th:object="${testWrapper}">
-    <input type="hidden" name="lessonId" th:value="${lessonId}">
-    <ul>
-        <li th:each="test, testIndex : *{tests}">
-            <h2 th:text="${test.task}"></h2>
-            <input type="hidden" th:field="*{tests[__${testIndex.index}__].id}" /> <!-- Hidden input for test id -->
-            <input type="text" th:field="*{tests[__${testIndex.index}__].task}" /> <!-- Text input for test task -->
-            <div th:if="${test.type == 'check'}">
-                <div th:each="answer, answerIndex : ${test.answers}">
-                    <label>
-                        <input type="checkbox" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].correct}" />
-                        <span th:text="${answer.answer}"></span>
-                    </label>
+<div th:insert="header/header :: header"></div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Testing Page</h1>
+    <form th:action="@{/submitTest}" method="post" th:object="${testWrapper}" class="form-group">
+        <input type="hidden" name="lessonId" th:value="${lessonId}">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="test, testIndex : *{tests}">
+                <h2 class="h5" th:text="${test.task}"></h2>
+                <input type="hidden" th:field="*{tests[__${testIndex.index}__].id}" />
+                <input type="hidden" th:field="*{tests[__${testIndex.index}__].type}" />
+                <div class="mb-3">
+                    <input type="text" th:field="*{tests[__${testIndex.index}__].task}" class="form-control" />
                 </div>
-            </div>
-            <div th:if="${test.type == 'construct'}">
-                <ul>
-                    <li th:each="answer, answerIndex : ${test.answers}">
-                        <label>
+                <div th:if="${test.type == 'check'}">
+                    <div th:each="answer, answerIndex : ${test.answers}" class="form-check mb-2">
+                        <input type="hidden" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].id}" />
+                        <input type="checkbox" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].correct}" class="form-check-input" />
+                        <label class="form-check-label">
                             <span th:text="${answer.answer}"></span>
-                            <input type="text" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].number}" />
                         </label>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-    <button type="submit">Submit</button>
-</form>
+                    </div>
+                </div>
+                <div th:if="${test.type == 'construct'}">
+                    <ul class="list-group">
+                        <li class="list-group-item" th:each="answer, answerIndex : ${test.answers}">
+                            <input type="hidden" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].id}" />
+                            <input type="hidden" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].correct}" />
+                            <div class="form-row align-items-center">
+                                <label class="col-auto col-form-label">
+                                    <span th:text="${answer.answer}"></span>
+                                </label>
+                                <div class="col">
+                                    <input type="number" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].number}" class="form-control" />
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Завершить тест</button>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

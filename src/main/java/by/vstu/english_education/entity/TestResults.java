@@ -13,9 +13,9 @@ import java.util.Date;
 @Entity
 @Table(name = "test_results")
 public class TestResults extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Test test;
-    @ManyToOne
+    @ManyToOne()
     private User user;
     private boolean correct;
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
