@@ -48,7 +48,7 @@ public class TestController {
 
     @GetMapping("/lessons/{lessonId}/test")
     public String showTestPage(@PathVariable Long lessonId, Model model) {
-        List<Test> tests = testService.findByLessonId(lessonId);
+        List<Test> tests = testService.findByLessonIdToTesting(lessonId);
         for (Test test : tests) {
             for (Answer answer : test.getAnswers()) {
                 answer.setCorrect(false);

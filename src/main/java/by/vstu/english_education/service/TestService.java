@@ -10,6 +10,7 @@ import by.vstu.english_education.repository.TestResultsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +35,16 @@ public class TestService {
         }
     }
 
-    public List<Test> findByLessonId(Long id) {
-        return testRepository.findByLessonId(id);
+    public List<Test> findByLessonIdToTesting(Long id) {
+        List<Test> tests = testRepository.findByLessonId(id);
+        for (Test test : tests) {
+            Collections.shuffle(test.getAnswers());
+            for (Answer answer : test.getAnswers()) {
+                answer.setCorrect(false);
+                answer.setNumber((byte) 0);
+            }
+        }
+        return tests;
     }
 
     public double checkTestResults(TestWrapper testWrapper, String username, Long lessonID, Date date) {
