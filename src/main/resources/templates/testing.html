@@ -39,7 +39,7 @@
                                     <span th:text="${answer.answer}"></span>
                                 </label>
                                 <div class="col">
-                                    <input type="number" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].number}" class="form-control" />
+                                    <input type="number" th:field="*{tests[__${testIndex.index}__].answers[__${answerIndex.index}__].number}" min="0" class="form-control" />
                                 </div>
                             </div>
                         </li>

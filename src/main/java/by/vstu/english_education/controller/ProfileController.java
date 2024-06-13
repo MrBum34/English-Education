@@ -36,6 +36,7 @@ public class ProfileController {
         userService.updateUserProfile(username, userProfileDTO);
         return "redirect:/profile";
     }
+
     @PostMapping("/change-password")
     public String changePassword(@RequestParam String newPassword, Authentication authentication) {
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();

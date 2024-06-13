@@ -20,7 +20,6 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Thymeleaf шаблон для вставки данных -->
         <tr th:each="result : ${testResults}">
             <td th:text="${result.lesson.title}"></td>
             <td th:text="${result.score}"></td>

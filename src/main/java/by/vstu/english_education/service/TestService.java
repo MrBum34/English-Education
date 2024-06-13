@@ -95,7 +95,6 @@ public class TestService {
                         }
                     }
                 }
-
             }
             TestResults testResults = new TestResults();
             testResults.setDateTime(date);

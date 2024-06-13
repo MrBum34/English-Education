@@ -7,6 +7,7 @@ import by.vstu.english_education.entity.Test;
 import by.vstu.english_education.service.LessonService;
 import by.vstu.english_education.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class TestController {
     @Autowired
     private LessonService lessonService;
 
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/lessons/{lessonId}/add-tests")
     public String showAddTestsForm(@PathVariable Long lessonId, Model model) {
         model.addAttribute("lessonId", lessonId);
@@ -31,6 +33,7 @@ public class TestController {
         return "add-tests";
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/add-tests")
     public String addTests(@RequestParam Long lessonId, @ModelAttribute("testWrapper") TestWrapper testWrapper) {
         Lesson lesson = lessonService.findById(lessonId);
@@ -52,11 +55,11 @@ public class TestController {
                 answer.setNumber((byte) 0);
             }
         }
-            TestWrapper testWrapper = new TestWrapper();
-            testWrapper.setTests(tests);
-            model.addAttribute("lessonId", lessonId);
-            model.addAttribute("testWrapper", testWrapper);
-            return "testing";
+        TestWrapper testWrapper = new TestWrapper();
+        testWrapper.setTests(tests);
+        model.addAttribute("lessonId", lessonId);
+        model.addAttribute("testWrapper", testWrapper);
+        return "testing";
 
     }
 

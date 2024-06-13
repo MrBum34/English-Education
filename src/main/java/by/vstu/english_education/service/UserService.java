@@ -4,10 +4,8 @@ import by.vstu.english_education.entity.Dto.UserProfileDTO;
 import by.vstu.english_education.entity.User;
 import by.vstu.english_education.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Service
 public class UserService {
@@ -30,16 +28,17 @@ public class UserService {
             userRepository.save(user);
         }
     }
-    public void changePassword(String username,String newPassword){
+
+    public void changePassword(String username, String newPassword) {
         User user = userRepository.findByUsername(username).get();
-        newPassword=passwordEncoder.encode(newPassword);
+        newPassword = passwordEncoder.encode(newPassword);
         user.setPassword(newPassword);
         userRepository.save(user);
     }
-    public void registerUser(User user){
+
+    public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_STUDENT");
         userRepository.save(user);
     }
-
 }

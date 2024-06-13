@@ -1,9 +1,9 @@
 package by.vstu.english_education.entity;
 
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -23,7 +23,8 @@ public class User extends AbstractEntity {
     private List<Lesson> lessons;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestResults> testResults;
-    public String getFullName(){
-        return lastname+" "+firstname+" "+patronymic;
+
+    public String getFullName() {
+        return lastname + " " + firstname + " " + patronymic;
     }
 }

@@ -13,7 +13,8 @@ public class AnswerService {
     public Answer findById(Long id) {
         return answerRepository.findById(id).orElse(null);
     }
-    public void save(Answer answer){
+
+    public void save(Answer answer) {
         answerRepository.save(answer);
     }
 }

@@ -5,6 +5,7 @@ import by.vstu.english_education.entity.User;
 import by.vstu.english_education.service.LessonService;
 import by.vstu.english_education.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ public class MyLessonController {
     private LessonService lessonService;
     @Autowired
     private UserService userService;
+
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/my-lessons")
     public String myLessons(Model model, Principal principal) {
         String username = principal.getName();
@@ -28,16 +31,22 @@ public class MyLessonController {
         model.addAttribute("lessons", lessons);
         return "my-lessons";
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/delete-lesson/{id}")
-    public String deleteLesson(@PathVariable Long id,Principal principal){
+    public String deleteLesson(@PathVariable Long id, Principal principal) {
         lessonService.deleteLesson(id, principal.getName());
         return "redirect:/my-lessons";
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/add-lesson")
-    public String addLessonForm(Model model){
-        model.addAttribute("lesson",new Lesson());
+    public String addLessonForm(Model model) {
+        model.addAttribute("lesson", new Lesson());
         return "add-lesson";
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/add-lesson")
     public String addLesson(@ModelAttribute Lesson lesson, Principal principal) {
         String username = principal.getName();
@@ -46,25 +55,30 @@ public class MyLessonController {
         lessonService.saveLesson(lesson);
         return "redirect:/my-lessons";
     }
+
     @GetMapping("/lessons")
     public String lessons(Model model) {
         List<Lesson> lessons = lessonService.getAllLessons();
         model.addAttribute("lessons", lessons);
         return "lessons";
     }
+
     @GetMapping("/lessons/{id}")
-    public String getLessonById(@PathVariable Long id,Model model) {
+    public String getLessonById(@PathVariable Long id, Model model) {
         Lesson lesson = lessonService.getLessonById(id);
-        model.addAttribute("lesson",lesson);
+        model.addAttribute("lesson", lesson);
         return "lesson";
     }
+
     @GetMapping("/edit-lesson/{id}")
+    @PreAuthorize("hasRole('TEACHER')")
     public String showEditLessonForm(@PathVariable("id") Long lessonId, Model model) {
         Lesson lesson = lessonService.findById(lessonId);
         model.addAttribute("lesson", lesson);
         return "edit-lesson";
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/edit-lesson")
     public String editLesson(@ModelAttribute("lesson") Lesson lesson) {
         lessonService.edit(lesson);
