@@ -16,5 +16,5 @@ public class Answer extends AbstractEntity {
     private Test test;
     private String answer;
     private boolean correct;
-    private byte number;
+    private int number;
 }
