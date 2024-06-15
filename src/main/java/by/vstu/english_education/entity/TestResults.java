@@ -22,5 +22,4 @@ public class TestResults extends AbstractEntity {
     private boolean correct;
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date dateTime;
-
 }
